@@ -1,5 +1,7 @@
 from datetime import datetime
 from pathlib import Path
+from typing import Any
+from typing import Union
 
 import boto3
 from django.conf import ImproperlyConfigured
@@ -9,15 +11,15 @@ from django.conf import settings
 class AwsSqliteBackup:
     def __init__(self) -> None:
         self.s3 = boto3.resource("s3")
-        self._db_name: str | None = None
+        self._db_name: Union[str, None] = None
 
-    def get_database_name(self) -> str | Path:
+    def get_database_name(self) -> Union[str, Path]:
         if self._db_name is None:
             self._db_name = settings.DATABASES["default"]["name"]
 
         return self._db_name
 
-    def _read_db(self) -> str:
+    def _read_db(self) -> Any:
         with open(self.get_database_name()) as f:
             return f
 
