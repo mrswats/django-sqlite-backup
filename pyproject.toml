@@ -34,9 +34,12 @@ aws = [
     "boto3",
 ]
 test = [
+    "boto3",
+    "moto",
     "pre-commit",
     "pytest",
     "pytest-django",
+    "coverage",
 ]
 
 [build-system]
