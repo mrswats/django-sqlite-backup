@@ -10,12 +10,12 @@ from django.conf import settings
 
 class AwsSqliteBackup:
     def __init__(self) -> None:
-        self.s3 = boto3.resource("s3")
+        self.s3 = boto3.client("s3")
         self._db_name: Union[str, None] = None
 
     def get_database_name(self) -> Union[str, Path]:
         if self._db_name is None:
-            self._db_name = settings.DATABASES["default"]["name"]
+            self._db_name = settings.DATABASES["default"]["NAME"]
 
         return self._db_name
 
@@ -32,4 +32,4 @@ class AwsSqliteBackup:
 
         full_bucket_name = f"{bucket_name}/{datetime.now().strftime('%Y-%m-%d')}/{db_name}"
 
-        self.s3.put_object(full_bucket_name)
+        self.s3.put_object(Key=full_bucket_name, Body=self._read_db())
