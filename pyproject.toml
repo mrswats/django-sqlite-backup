@@ -73,3 +73,15 @@ exclude = """
   )/
 )
 """
+
+[tool.coverage.run]
+source = ["django_sqlite_backup"]
+branch = true
+
+[tool.coverage.report]
+skip_empty = false
+fail_under = 100
+exclude_also = [
+    "if __name__ == .__main__.:",
+    "\\.\\.\\.",
+]
