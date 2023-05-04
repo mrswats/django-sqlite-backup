@@ -1,6 +1,6 @@
 SECRET_KEY = "django-insecure-tesitng-key"
 
-ROOT_URLCONF = "tests.urls"
+ROOT_URLCONF = "testing.urls"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
