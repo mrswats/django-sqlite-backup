@@ -8,23 +8,13 @@ from moto import mock_s3
 
 from django_sqlite_backup.aws import AwsSqliteBackup
 from django_sqlite_backup.backup import SqliteBackup
-
-TEST_BUCKET_NAME = "mock-bucket"
-TEST_DB_NAME = "fake.db"
+from tests.conftest import TEST_BUCKET_NAME
+from tests.conftest import TEST_DB_NAME
 
 
 @pytest.fixture
 def instance():
     return AwsSqliteBackup()
-
-
-@pytest.fixture
-def fake_db(tmp_path):
-    dbdir = tmp_path / "db"
-    dbdir.mkdir()
-    db = dbdir / TEST_DB_NAME
-    db.write_text("content")
-    return db
 
 
 @pytest.fixture
@@ -34,17 +24,6 @@ def patch_db_name(fake_db):
         return_value=str(fake_db.resolve()),
     ) as db:
         yield db
-
-
-@pytest.fixture
-def setup_test_bucket(default_settings):
-    default_settings.SQLITE_BACKUP["BUCKET_NAME"] = TEST_BUCKET_NAME
-    s3 = boto3.client("s3")
-
-    def _():
-        s3.create_bucket(Bucket=TEST_BUCKET_NAME)
-
-    return _
 
 
 def get_test_bucket():

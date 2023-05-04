@@ -1,7 +1,14 @@
 import os
+from datetime import datetime
 
+import boto3
 import pytest
 from django.test import Client
+
+TEST_BUCKET_NAME = "mock-bucket"
+TEST_DB_NAME = "fake.db"
+TEST_DATE = datetime(1992, 11, 25)
+TEST_DATE_STR = TEST_DATE.strftime("%Y-%m-%d")
 
 
 @pytest.fixture
@@ -27,3 +34,40 @@ def aws_credentials():
     os.environ["AWS_ACCESS_KEY_ID"] = "my-id"
     os.environ["AWS_SECRET_ACCESS_KEY"] = "my-secret"
     os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+
+
+@pytest.fixture
+def fake_db(tmp_path):
+    dbdir = tmp_path / "db"
+    dbdir.mkdir()
+    db = dbdir / TEST_DB_NAME
+    db.write_text("content")
+    return db
+
+
+@pytest.fixture
+def setup_test_bucket(default_settings):
+    default_settings.SQLITE_BACKUP["BUCKET_NAME"] = TEST_BUCKET_NAME
+    s3 = boto3.client("s3")
+
+    def _():
+        s3.create_bucket(Bucket=TEST_BUCKET_NAME)
+
+    return _
+
+
+@pytest.fixture
+def setup_sqlite_restore(setup_test_bucket, fake_db):
+    def _():
+        with open(fake_db) as f:
+            content = f.read()
+
+        setup_test_bucket()
+        s3 = boto3.client("s3")
+        s3.put_object(
+            Bucket=TEST_BUCKET_NAME,
+            Key=f"sqlite_backup/1992-11-25/{TEST_DB_NAME}",
+            Body=content,
+        )
+
+    return _

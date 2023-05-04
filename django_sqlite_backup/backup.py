@@ -11,9 +11,6 @@ class SqliteBackup(Protocol):
     def backup_db(self) -> None:
         ...
 
-    def get_database_name(self) -> str:
-        ...
-
 
 DEFAULT_BACKUP_CLASS = "django_sqlite_backup.aws.AwsSqliteBackup"
 
@@ -29,3 +26,9 @@ def get_backup_class() -> Type[SqliteBackup]:
     )
 
     return import_string(class_string)
+
+
+def do_backup() -> None:
+    backup_class = get_backup_class()
+    backup_class_instance = backup_class()
+    backup_class_instance.backup_db()

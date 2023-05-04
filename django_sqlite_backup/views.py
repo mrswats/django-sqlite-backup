@@ -9,8 +9,5 @@ from django_sqlite_backup.decorators import login_required
 @login_required
 @require_http_methods(["POST"])
 def backup_view(request: HttpRequest) -> JsonResponse:
-    backup_class = backup.get_backup_class()
-    backup_class_instance = backup_class()
-    backup_class_instance.backup_db()
-
+    backup.do_backup()
     return JsonResponse({}, status=204)

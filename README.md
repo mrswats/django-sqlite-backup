@@ -41,13 +41,31 @@ You must define your settings in your `settings.py`:
 ```
 SQLITE_BACKUP = {
     "BACKUP_CLASS": ...,
+    "RESTORE_CLASS": ...,
     "BUCKET_NAME": ...,
 }
 ```
 
 - `BACKUP_CLASS` must point to class which follows the [`SqliteBackup`](./django_sqlite_backup/backup.py) protocol.
-
+- `RESTORE_CLASS` must point to class which follows the [`SqliteRestore`](./django_sqlite_backup/restore.py) protocol.
 - `BUCKET_NAME` is the name of the bucket in S3 which can be written to.
+
+### Management commands
+
+This app provides two commands for carrying out operations on the backups: `backup` and `restore`.
+
+```console
+./manage.py backup
+```
+
+Will back up the current sqlite database into the configured bucket.
+
+```console
+./manage.py restore [date_str]
+```
+
+Will restore your sqlite database from your configured bucket on the date specified.
+The `date_str` is optional and defaults to today.
 
 ### AWS
 
