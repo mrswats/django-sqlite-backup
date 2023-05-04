@@ -1,14 +1,11 @@
 import os
-from datetime import datetime
 
 import boto3
 import pytest
 from django.test import Client
 
-TEST_BUCKET_NAME = "mock-bucket"
-TEST_DB_NAME = "fake.db"
-TEST_DATE = datetime(1992, 11, 25)
-TEST_DATE_STR = TEST_DATE.strftime("%Y-%m-%d")
+from testing.constants import TEST_BUCKET_NAME
+from testing.constants import TEST_DB_NAME
 
 
 @pytest.fixture
@@ -29,7 +26,7 @@ def default_settings(settings):
     return settings
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def aws_credentials():
     os.environ["AWS_ACCESS_KEY_ID"] = "my-id"
     os.environ["AWS_SECRET_ACCESS_KEY"] = "my-secret"
@@ -71,3 +68,9 @@ def setup_sqlite_restore(setup_test_bucket, fake_db):
         )
 
     return _
+
+
+@pytest.fixture
+def test_settings(default_settings, fake_db):
+    default_settings.DATABASES["default"]["NAME"] = fake_db
+    return default_settings

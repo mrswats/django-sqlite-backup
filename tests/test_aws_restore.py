@@ -1,14 +1,13 @@
-from unittest.mock import patch
-
 import pytest
 import time_machine
 from django.conf import ImproperlyConfigured
 from moto import mock_s3
 
 from django_sqlite_backup.aws import AwsRestoreDb
-from tests.conftest import TEST_DATE
-from tests.conftest import TEST_DATE_STR
-from tests.conftest import TEST_DB_NAME
+from django_sqlite_backup.aws import get_database_name
+from testing.constants import TEST_DATE
+from testing.constants import TEST_DATE_STR
+from testing.constants import TEST_DB_NAME
 
 
 @pytest.fixture
@@ -22,26 +21,17 @@ def instance():
     return AwsRestoreDb()
 
 
-@pytest.fixture
-def patch_db_name(fake_db):
-    with patch(
-        "django_sqlite_backup.aws.AwsRestoreDb.get_database_name",
-        return_value=fake_db,
-    ) as db:
-        yield db
-
-
-def test_aws_sqlite_retroe_returns_settings_database_name(instance, default_settings):
-    assert instance.get_database_name() == default_settings.DATABASES["default"]["NAME"]
+def test_aws_sqlite_restore_returns_settings_database_name(default_settings):
+    assert get_database_name() == str(default_settings.DATABASES["default"]["NAME"])
 
 
 @mock_s3
-@pytest.mark.usefixtures("patch_db_name", "aws_credentials")
+@pytest.mark.usefixtures("aws_credentials")
 def test_aws_sqlite_backup_raises_exception_if_bucket_name_not_defined(
-    instance, setup_test_bucket, default_settings
+    instance, setup_test_bucket, test_settings
 ):
     setup_test_bucket()
-    del default_settings.SQLITE_BACKUP["BUCKET_NAME"]
+    del test_settings.SQLITE_BACKUP["BUCKET_NAME"]
     with pytest.raises(ImproperlyConfigured):
         instance.restore_db(TEST_DATE_STR)
 

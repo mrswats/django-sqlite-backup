@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 
 from django_sqlite_backup import restore
-from tests.conftest import TEST_DATE_STR
+from testing.constants import TEST_DATE_STR
 
 
 def test_get_restore_class_returns_default_class():

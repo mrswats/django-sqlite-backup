@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 from django.core.management import call_command
 
-from tests.conftest import TEST_DATE_STR
+from testing.constants import TEST_DATE_STR
 
 
 @pytest.fixture
