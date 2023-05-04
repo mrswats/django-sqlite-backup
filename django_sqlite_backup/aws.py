@@ -31,3 +31,28 @@ class AwsSqliteBackup:
             Key=full_bucket_name,
             Body=self._read_db(),
         )
+
+
+class AwsRestoreDb:
+    def __init__(self) -> None:
+        self.s3 = boto3.client("s3")
+
+    def get_database_name(self) -> str:
+        return str(settings.DATABASES["default"]["NAME"])
+
+    def restore_db(self, date_str: str) -> None:
+        bucket_name = settings.SQLITE_BACKUP.get("BUCKET_NAME")
+
+        if bucket_name is None:
+            raise ImproperlyConfigured("`BUCKET_NAME` is not defined")
+
+        db_name = self.get_database_name()
+        key = f"sqlite_backup/{date_str}/{db_name}"
+
+        response = self.s3.get_object(
+            Bucket=bucket_name,
+            Key=key,
+        )
+
+        with open(db_name, "w") as f:
+            f.write(response.get("Body").read().decode())
