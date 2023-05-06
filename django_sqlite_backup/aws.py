@@ -9,7 +9,10 @@ from django.conf import settings
 
 @lru_cache
 def s3():
-    return boto3.client("s3")
+    return boto3.client(
+        "s3",
+        endpoint_url=settings.SQLITE_BACKUP.get("S3_ENDPOINT"),
+    )
 
 
 def get_database_name() -> str:
