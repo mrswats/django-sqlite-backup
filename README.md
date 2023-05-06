@@ -43,12 +43,14 @@ SQLITE_BACKUP = {
     "BACKUP_CLASS": ...,
     "RESTORE_CLASS": ...,
     "BUCKET_NAME": ...,
+    "S3_ENDPOINT": ...,
 }
 ```
 
 - `BACKUP_CLASS` must point to class which follows the [`SqliteBackup`](./django_sqlite_backup/backup.py) protocol.
 - `RESTORE_CLASS` must point to class which follows the [`SqliteRestore`](./django_sqlite_backup/restore.py) protocol.
 - `BUCKET_NAME` is the name of the bucket in S3 which can be written to.
+- `S3_ENDPOINT` S3 endpoint override. Leave this blank if you use AWS S3 directly.
 
 ### Management commands
 
