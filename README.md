@@ -30,21 +30,42 @@ Then, add the app's URLs to the root URL conf:
 
 This will create a route in your application to backup your sqlite database:
 
-`/backup/` which accepts only `POST` requests with authentication.
+```
+GET /backup/
 
-If the request succeeds it will return a `294`. Otherwise, a `403` if the request was not authenticated.
+204: Successful backup
+```
+
+### Write your own view
+
+If you want to use a different method or want to add some sort of authentication or other kinds of logic with the backup call, you can write your own view importing the `do_backup` function:
+
+```
+# views.py
+from django.http import HttpRequest
+from django.http import JsonResponse
+
+from django_sqlite_backup import backup
+
+
+def my_view(request: HttpRequest) -> JsonResponse:
+    do_backup()
+    return JsonResponse({}, status=204)
+```
 
 ### Settings
 
 You must define your settings in your `settings.py`:
 
 ```
+
 SQLITE_BACKUP = {
-    "BACKUP_CLASS": ...,
-    "RESTORE_CLASS": ...,
-    "BUCKET_NAME": ...,
-    "S3_ENDPOINT": ...,
+"BACKUP_CLASS": ...,
+"RESTORE_CLASS": ...,
+"BUCKET_NAME": ...,
+"S3_ENDPOINT": ...,
 }
+
 ```
 
 - `BACKUP_CLASS` must point to class which follows the [`SqliteBackup`](./django_sqlite_backup/backup.py) protocol.
