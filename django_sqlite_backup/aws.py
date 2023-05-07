@@ -21,7 +21,7 @@ def get_database_name() -> str:
 
 class AwsSqliteBackup:
     def _read_db(self) -> Any:
-        with open(get_database_name()) as f:
+        with open(get_database_name(), "rb") as f:
             return f.read()
 
     def backup_db(self) -> None:
@@ -55,5 +55,5 @@ class AwsRestoreDb:
             Key=key,
         )
 
-        with open(db_name, "w") as f:
-            f.write(response.get("Body").read().decode())
+        with open(db_name, "wb") as f:
+            f.write(response.get("Body").read())
