@@ -38,7 +38,7 @@ def fake_db(tmp_path):
     dbdir = tmp_path / "db"
     dbdir.mkdir()
     db = dbdir / TEST_DB_NAME
-    db.write_text("content")
+    db.write_bytes(b"content")
     return db
 
 

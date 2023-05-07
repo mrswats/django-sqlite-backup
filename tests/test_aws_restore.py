@@ -45,5 +45,5 @@ def test_aws_sqlite_restore_donwloads_the_sqlite_dhtabase(
     default_settings.DATABASES["default"]["NAME"] = TEST_DB_NAME
     instance.restore_db(TEST_DATE_STR)
 
-    with open(fake_db) as f:
-        assert f.read() == "content"
+    with open(fake_db, "rb") as f:
+        assert f.read() == b"content"
