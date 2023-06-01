@@ -1,5 +1,8 @@
 import pytest
+from django.test import RequestFactory
 from django.urls import reverse
+
+from django_sqlite_backup.views import backup_view
 
 
 @pytest.fixture
@@ -14,8 +17,9 @@ def backup_url():
 
 
 @pytest.fixture
-def backup_view_response(client, backup_url):
-    return client.get(backup_url)
+def backup_view_response(backup_url):
+    request = RequestFactory().get(backup_url)
+    return backup_view(request)
 
 
 def test_sqlite_backup_url(backup_url):
@@ -24,11 +28,7 @@ def test_sqlite_backup_url(backup_url):
 
 @pytest.mark.django_db
 @pytest.mark.usefixtures("dummy_backup_settings")
-def test_backup_view_returns_empty_response(backup_view_response):
-    assert backup_view_response.content.decode() == ""
-
-
-@pytest.mark.django_db
-@pytest.mark.usefixtures("dummy_backup_settings")
-def test_backup_view_returns_empty_response_code(backup_view_response):
+def test_backup_view_response_attrs(mock_backup, backup_view_response):
     assert backup_view_response.status_code == 204
+    assert backup_view_response.content.decode() == "{}"
+    mock_backup.assert_called_once()

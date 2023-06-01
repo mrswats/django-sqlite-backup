@@ -1,13 +1,5 @@
-from unittest.mock import patch
-
 import pytest
 from django.core.management import call_command
-
-
-@pytest.fixture
-def mock_backup():
-    with patch("django_sqlite_backup.backup.do_backup") as mocked:
-        yield mocked
 
 
 @pytest.fixture

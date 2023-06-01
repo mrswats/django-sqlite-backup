@@ -1,4 +1,5 @@
 import os
+from unittest.mock import patch
 
 import boto3
 import pytest
@@ -74,3 +75,9 @@ def setup_sqlite_restore(setup_test_bucket, fake_db):
 def test_settings(default_settings, fake_db):
     default_settings.DATABASES["default"]["NAME"] = fake_db
     return default_settings
+
+
+@pytest.fixture
+def mock_backup():
+    with patch("django_sqlite_backup.backup.do_backup") as mocked:
+        yield mocked
