@@ -32,3 +32,11 @@ def test_backup_view_response_attrs(mock_backup, backup_view_response):
     assert backup_view_response.status_code == 204
     assert backup_view_response.content.decode() == "{}"
     mock_backup.assert_called_once()
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("dummy_backup_settings")
+def test_backup_view_response(client, backup_url):
+    response = client.get(backup_url)
+    assert response.status_code == 204
+    assert response.content.decode() == "{}"
