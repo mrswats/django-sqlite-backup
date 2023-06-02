@@ -39,4 +39,4 @@ def test_backup_view_response_attrs(mock_backup, backup_view_response):
 def test_backup_view_response(client, backup_url):
     response = client.get(backup_url)
     assert response.status_code == 204
-    assert response.content.decode() == "{}"
+    assert response.content.decode() == ""

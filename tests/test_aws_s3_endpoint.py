@@ -18,6 +18,6 @@ def test_s3_endpoint_url(default_settings, client):
     assert client().meta.endpoint_url == endpoint_url
 
 
-@pytest.mark.usefixtures("default_settings")
+@pytest.mark.usefixtures("aws_credentials", "default_settings")
 def test_s3_default_endpoint_url(client):
     assert client().meta.endpoint_url == "https://s3.amazonaws.com"
