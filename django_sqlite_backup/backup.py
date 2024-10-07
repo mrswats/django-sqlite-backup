@@ -8,8 +8,7 @@ from django.utils.module_loading import import_string
 
 @runtime_checkable
 class SqliteBackup(Protocol):
-    def backup_db(self) -> None:
-        ...
+    def backup_db(self) -> None: ...
 
 
 DEFAULT_BACKUP_CLASS = "django_sqlite_backup.aws.AwsSqliteBackup"
