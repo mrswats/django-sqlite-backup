@@ -8,7 +8,8 @@ from django.utils.module_loading import import_string
 
 @runtime_checkable
 class SqliteRestore(Protocol):
-    def restore_db(self, date_str: str) -> None: ...
+    def restore_db(self, date_str: str) -> None:
+        pass
 
 
 DEFAULT_RESTORE_CLASS = "django_sqlite_backup.aws.AwsRestoreDb"
