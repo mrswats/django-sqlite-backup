@@ -22,7 +22,8 @@ classifiers = [
     "Framework :: Django"
 ]
  dependencies = [
-    "Django>=4.1.1",
+    "Django==4.1.1",
+    "asgiref==3.8.1"
  ]
 
 [project.urls]
@@ -37,7 +38,6 @@ test = [
     "boto3",
     "coverage",
     "moto",
-    "pre-commit",
     "pytest",
     "pytest-django",
     "time-machine",

@@ -2,7 +2,7 @@ import re
 
 import pytest
 from django.conf import ImproperlyConfigured
-from moto import mock_s3
+from moto import mock_aws
 
 from django_sqlite_backup.aws import AwsSqliteBackup
 from django_sqlite_backup.aws import get_database_name
@@ -24,7 +24,7 @@ def test_aws_sqlite_backup_returns_settings_database_name(default_settings):
     assert get_database_name() == default_settings.DATABASES["default"]["NAME"]
 
 
-@mock_s3
+@mock_aws
 @pytest.mark.usefixtures("test_settings", "aws_credentials")
 def test_aws_sqlite_backup_raises_exception_if_bucket_name_not_defined(
     instance, setup_test_bucket, default_settings
@@ -35,7 +35,7 @@ def test_aws_sqlite_backup_raises_exception_if_bucket_name_not_defined(
         instance.backup_db()
 
 
-@mock_s3
+@mock_aws
 @pytest.mark.usefixtures("test_settings", "aws_credentials")
 def test_aws_sqlite_backup_sends_data_to_s3(instance, setup_test_bucket):
     setup_test_bucket()
