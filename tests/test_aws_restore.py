@@ -1,7 +1,7 @@
 import pytest
 import time_machine
 from django.conf import ImproperlyConfigured
-from moto import mock_s3
+from moto import mock_aws
 
 from django_sqlite_backup.aws import AwsRestoreDb
 from django_sqlite_backup.aws import get_database_name
@@ -25,7 +25,7 @@ def test_aws_sqlite_restore_returns_settings_database_name(default_settings):
     assert get_database_name() == str(default_settings.DATABASES["default"]["NAME"])
 
 
-@mock_s3
+@mock_aws
 @pytest.mark.usefixtures("aws_credentials")
 def test_aws_sqlite_backup_raises_exception_if_bucket_name_not_defined(
     instance, setup_test_bucket, test_settings
@@ -36,7 +36,7 @@ def test_aws_sqlite_backup_raises_exception_if_bucket_name_not_defined(
         instance.restore_db(TEST_DATE_STR)
 
 
-@mock_s3
+@mock_aws
 @pytest.mark.usefixtures("aws_credentials", "set_time")
 def test_aws_sqlite_restore_donwloads_the_sqlite_dhtabase(
     instance, setup_sqlite_restore, default_settings, fake_db

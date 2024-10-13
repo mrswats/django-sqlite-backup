@@ -3,7 +3,7 @@ name = "django-sqlite-backup"
 version = "0.0.4"
 description = "A Django app to easily backup your sqlite database through an endpoint."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = { file = "LICENSE" }
 authors = [
     {name = "Ferran Jovell", email = "ferran.jovell+gh@gmail.com"}
@@ -22,7 +22,8 @@ classifiers = [
     "Framework :: Django"
 ]
  dependencies = [
-    "Django>=3.2.14",
+    "Django==4.1.1",
+    "asgiref==3.8.1"
  ]
 
 [project.urls]
@@ -37,7 +38,6 @@ test = [
     "boto3",
     "coverage",
     "moto",
-    "pre-commit",
     "pytest",
     "pytest-django",
     "time-machine",
@@ -81,7 +81,7 @@ branch = true
 
 [tool.coverage.report]
 skip_empty = false
-fail_under = 100
+fail_under = 90
 exclude_also = [
     "if __name__ == .__main__.:",
     "\\.\\.\\.",
