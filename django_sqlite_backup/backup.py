@@ -1,6 +1,5 @@
 from typing import Protocol
 from typing import runtime_checkable
-from typing import Type
 
 from django.conf import settings
 from django.utils.module_loading import import_string
@@ -20,7 +19,7 @@ SQLITE_BACKUP = {
 }
 
 
-def get_backup_class() -> Type[SqliteBackup]:
+def get_backup_class() -> type[SqliteBackup]:
     class_string = (
         getattr(settings, "SQLITE_BACKUP", {}).get("BACKUP_CLASS") or DEFAULT_BACKUP_CLASS
     )

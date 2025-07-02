@@ -1,6 +1,5 @@
 from typing import Protocol
 from typing import runtime_checkable
-from typing import Type
 
 from django.conf import settings
 from django.utils.module_loading import import_string
@@ -15,7 +14,7 @@ class SqliteRestore(Protocol):
 DEFAULT_RESTORE_CLASS = "django_sqlite_backup.aws.AwsRestoreDb"
 
 
-def get_restore_class() -> Type[SqliteRestore]:
+def get_restore_class() -> type[SqliteRestore]:
     class_string = (
         getattr(settings, "SQLITE_BACKUP", {}).get("RESTORE_CLASS") or DEFAULT_RESTORE_CLASS
     )
