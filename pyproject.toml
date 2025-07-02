@@ -22,8 +22,8 @@ classifiers = [
     "Framework :: Django"
 ]
  dependencies = [
-    "Django==4.1.1",
-    "asgiref==3.8.1"
+    "Django",
+    "asgiref"
  ]
 
 [project.urls]
@@ -44,18 +44,22 @@ test = [
 ]
 
 [build-system]
-requires = ["setuptools>=67.4"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["django_sqlite_backup"]
+packages = [
+    "django_sqlite_backup",
+    "django_sqlite_backup.management",
+    "django_sqlite_backup.management.commands",
+]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "testing.settings"
 
 [tool.black]
 line-length = 99
-target_version = ["py38"]
+target_version = ["py39"]
 skip-string-normalization = false
 include = "\\.pyi?$"
 exclude = """
