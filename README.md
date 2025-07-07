@@ -94,6 +94,8 @@ The `date_str` is optional and defaults to today.
 
 By default, the backup class uses `boto3` to backup the sqlite database into S3. Therefore, you will need to also pass the [AWS Environment Variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) to the environment where your application is running.
 
+Note: You can use `AWS_PROFILE` environment variable to select the appropriate profile in case there is more than one or the `default` one is not the correct one to be used.
+
 ## Licence
 
 This package is distributed under [MIT Licence](./LICENCE).
