@@ -57,3 +57,17 @@ class AwsRestoreDb:
 
         with open(db_name, "wb") as f:
             f.write(response.get("Body").read())
+
+
+class AwsListDb:
+    def list_db(self) -> list[str]:
+        bucket_name = settings.SQLITE_BACKUP.get("BUCKET_NAME")
+
+        if bucket_name is None:
+            raise ImproperlyConfigured("`BUCKET_NAME` is not defined")
+
+        response = s3().list_objects(
+            Bucket=bucket_name,
+        )
+
+        return [backup_date["Key"] for backup_date in response["Contents"]]
