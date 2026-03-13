@@ -32,8 +32,6 @@ jobs:
       - name: Install dependencies
         run: pip install '.[test]'
 
-      - uses: pre-commit/action@v3.0.1
-
       - name: Test with pytest
         run: coverage run -m pytest -v
 
