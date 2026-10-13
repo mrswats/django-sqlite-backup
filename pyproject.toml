@@ -1,14 +1,15 @@
 [project]
 name = "django-sqlite-backup"
-version = "0.2.0"
+version = "0.3.0"
 description = "A Django app to easily backup your sqlite database through an endpoint."
 readme = "README.md"
 requires-python = ">=3.11"
-license = { file = "LICENSE" }
 authors = [
-    {name = "Ferran Jovell", email = "ferran.jovell+gh@gmail.com"}
+    { name = "Ferran Jovell", email = "ferran.jovell+gh@gmail.com" },
 ]
-keywords = ["django"]
+keywords = [
+    "django",
+]
 classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
@@ -20,12 +21,15 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries",
     "Environment :: Web Environment",
-    "Framework :: Django"
+    "Framework :: Django",
 ]
- dependencies = [
+dependencies = [
     "Django",
-    "asgiref"
- ]
+    "asgiref",
+]
+
+[project.license]
+file = "LICENSE"
 
 [project.urls]
 homepage = "https://github.com/mrswats/django-sqlite-backup"
@@ -45,7 +49,9 @@ test = [
 ]
 
 [build-system]
-requires = ["setuptools"]
+requires = [
+    "setuptools",
+]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
@@ -60,28 +66,17 @@ DJANGO_SETTINGS_MODULE = "testing.settings"
 
 [tool.black]
 line-length = 99
-target_version = ["py39"]
+target_version = [
+    "py39",
+]
 skip-string-normalization = false
 include = "\\.pyi?$"
-exclude = """
-(
-  /(
-      \\.eggs         # exclude a few common directories in the
-    | \\.git          # root of the project
-    | \\.hg
-    | \\.mypy_cache
-    | \\.tox
-    | \\.venv
-    | _build
-    | buck-out
-    | build
-    | dist
-  )/
-)
-"""
+exclude = "(\n  /(\n      \\.eggs         # exclude a few common directories in the\n    | \\.git          # root of the project\n    | \\.hg\n    | \\.mypy_cache\n    | \\.tox\n    | \\.venv\n    | _build\n    | buck-out\n    | build\n    | dist\n  )/\n)\n"
 
 [tool.coverage.run]
-source = ["django_sqlite_backup"]
+source = [
+    "django_sqlite_backup",
+]
 branch = true
 
 [tool.coverage.report]
